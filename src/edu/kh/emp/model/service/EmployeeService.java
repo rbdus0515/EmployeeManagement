@@ -53,7 +53,6 @@ public class EmployeeService {
 	 * @throws Exception 
 	 * 
 	 */
-
 	public Employee selectEmpId(int empId) throws Exception {
 		Connection conn = getConnection();
 		
@@ -83,7 +82,6 @@ public class EmployeeService {
 		return result;
 	}
 
-
 	/** 사번이 일치하는 사원 정보 삭제 서비스
 	 * @param empId
 	 * @return
@@ -103,18 +101,80 @@ public class EmployeeService {
 		return result;
 	}
 
-	
-	/** 입력 받은 급여 이상을 받는 모든 사원 정보 조회 서비스
-	 * @return
+	/** 입력 받은 부서와 일치하는 모든 사원 정보 조회 서비스
+	 * @return list
+	 * @throws Exception 
 	 */
-	public List<Employee> selectSalaryEmp() {
+	public List<Employee> selectDeptEmp() throws Exception {
 		
 		Connection conn = getConnection();
 		
-		List<Employee> list = dao.selectSalaryEmp(conn);
+		List<Employee> list = dao.selectDeptEmp(conn);
 		
 		close(conn);
 		
+		return list;
+	}
+
+	
+	/** 입력 받은 급여 이상을 받는 모든 사원 정보 조회 서비스
+	 * @return list
+	 * @throws Exception 
+	 */
+	public List<Employee> selectSalaryEmp() throws Exception {
+		
+		Connection conn = getConnection();
+
+		List<Employee> list = dao.selectSalaryEmp(conn);
+
+		close(conn);
+		
+		return list;
+	}
+
+	/** 부서별 급여 합 전체 조회 서비스
+	 * @return
+	 * @throws Exception 
+	 */
+	public List<Employee> selectDeptTotalSalary() throws Exception {
+		
+		Connection conn = getConnection();
+
+		List<Employee> list = dao.selectDeptTotalSalary(conn);
+
+		close(conn);
+
+		return list;
+
+	}
+
+	
+	/** 주민등록번호가 일치하는 사원 정보 조회 서비스
+	 * @param input
+	 * @return
+	 * @throws Exception 
+	 */
+	public Employee selectEmpNo(String input) throws Exception {
+		Connection conn = getConnection();
+		
+		Employee emp = dao.selectEmpNo(conn, input);
+		
+		close(conn);
+		
+		return emp;
+	}
+
+	
+	/** 직급별 급여 평균 조회 서비스
+	 * @return
+	 */
+	public List<Employee> selectJobAvgSalary() throws Exception {
+		Connection conn = getConnection();
+
+		List<Employee> list = dao.selectJobAvgSalary(conn);
+
+		close(conn);
+
 		return list;
 	}
 	

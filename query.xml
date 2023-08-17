@@ -39,7 +39,7 @@
 	WHERE EMP_ID = ?
 	</entry>
 	
-	<entry key = "selectSalaryEmp">
+	<entry key = "selectDeptEmp">
 	SELECT EMP_ID , EMP_NAME , EMP_NO , EMAIL , PHONE ,
 	NVL(DEPT_TITLE, '부서없음') DEPT_TITLE, JOB_NAME, SALARY
 	FROM EMPLOYEE
@@ -47,5 +47,66 @@
 	JOIN JOB USING(JOB_CODE)
 	WHERE DEPT_CODE = ?
 	</entry>
+	
+	<entry key = "selectSalaryEmp">
+	SELECT EMP_ID , EMP_NAME , EMP_NO , EMAIL , PHONE ,
+	NVL(DEPT_TITLE, '부서없음') DEPT_TITLE, JOB_NAME, SALARY
+	FROM EMPLOYEE
+	LEFT JOIN DEPARTMENT ON(DEPT_ID = DEPT_CODE)
+	JOIN JOB USING(JOB_CODE)
+	WHERE SALARY >= ?
+	</entry>
+	
+	<entry key="selectDeptTotalSalary">
+	SELECT SUM(SALARY)
+	FROM EMPLOYEE
+	GROUP BY DEPT_CODE
+	ORDER BY DEPT_CODE
+	</entry>
+	
+	<entry key="selectEmpNo">
+	SELECT EMP_ID , EMP_NAME , EMP_NO , EMAIL , PHONE ,
+	NVL(DEPT_TITLE, '부서없음') DEPT_TITLE, JOB_NAME, SALARY
+	FROM EMPLOYEE
+	LEFT JOIN DEPARTMENT ON(DEPT_ID = DEPT_CODE)
+	JOIN JOB USING(JOB_CODE)
+	WHERE EMP_NO = ?
+	</entry>
+	
+	<entry key="selectJobAvgSalary">
+	SELECT SUM(SALARY)
+	FROM EMPLOYEE
+	GROUP BY JOB_CODE 
+	ORDER BY JOB_CODE
+	</entry>
 
 </properties>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

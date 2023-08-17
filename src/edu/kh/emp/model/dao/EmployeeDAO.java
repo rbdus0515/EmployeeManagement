@@ -122,6 +122,12 @@ public class EmployeeDAO {
 		return result;
 	}
 
+	/** 사번이 일치하는 사원 정보 조회 DAO
+	 * @param conn
+	 * @param empId
+	 * @return
+	 * @throws Exception
+	 */
 	public Employee selectEmpid(Connection conn, int empId) throws Exception {
 		Employee emp = null;
 		
@@ -216,24 +222,197 @@ public class EmployeeDAO {
 		return result;
 	}
 
-	/** 입력 받은 급여 이상을 받는 모든 사원 정보 조회 DAO
+	/** 입력 받은 부서와 일치하는 모든 사원 정보 조회 DAO
 	 * @param conn
 	 * @return
+	 * @throws Exception 
 	 */
-	public List<Employee> selectSalaryEmp(Connection conn) {
+	public List<Employee> selectDeptEmp(Connection conn) throws Exception {
 		
 		List<Employee> emplist = new ArrayList<Employee>();
 		
 		try {
 			
-			String sql = prop.getProperty("selectSalaryEmp");
+			String sql = prop.getProperty("selectDeptEmp");
 			
+			stmt = conn.createStatement();
+
+			rs = stmt.executeQuery(sql);
+
+			while(rs.next()) {
+
+				int empId = rs.getInt("EMP_ID"); 
+				String empName = rs.getString("EMP_NAME");
+				String empNo = rs.getString("EMP_NO");
+				String email = rs.getString("EMAIL");
+				String phone = rs.getString("PHONE");
+				String departmentTitle = rs.getString("DEPT_TITLE");
+				String jobName = rs.getString("JOB_NAME");
+				int salary = rs.getInt("SALARY");
+
+				Employee emp = new Employee(empId, empName, empNo, email,
+						phone, departmentTitle, jobName, salary);
+
+				emplist.add(emp); // List에 담기
+
+			}
 			
 		} finally {
 			close(stmt);
 		}
 		
 		return emplist;
+	}
+
+	/** 입력 받은 급여 이상을 받는 모든 사원 정보 조회 서비스 DAO
+	 * @param conn
+	 * @return emplist
+	 * @throws Exception 
+	 */
+	public List<Employee> selectSalaryEmp(Connection conn) throws Exception {
+		
+		List<Employee> emplist = new ArrayList<Employee>();
+
+		try {
+
+			String sql = prop.getProperty("selectSalaryEmp");
+
+			stmt = conn.createStatement();
+
+			rs = stmt.executeQuery(sql);
+
+			while(rs.next()) {
+
+				int empId = rs.getInt("EMP_ID"); 
+				String empName = rs.getString("EMP_NAME");
+				String empNo = rs.getString("EMP_NO");
+				String email = rs.getString("EMAIL");
+				String phone = rs.getString("PHONE");
+				String departmentTitle = rs.getString("DEPT_TITLE");
+				String jobName = rs.getString("JOB_NAME");
+				int salary = rs.getInt("SALARY");
+
+				Employee emp = new Employee(empId, empName, empNo, email,
+						phone, departmentTitle, jobName, salary);
+
+				emplist.add(emp); // List에 담기
+
+			}
+
+		} finally {
+			close(stmt);
+		}
+
+		return emplist;
+	}
+
+	/** 부서별 급여 합 전체 조회 DAO
+	 * @param conn
+	 * @return
+	 * @throws Exception 
+	 */
+	public List<Employee> selectDeptTotalSalary(Connection conn) throws Exception {
+		
+		List<Employee> empList = new ArrayList<Employee>();
+		
+		try {
+			
+			String sql = prop.getProperty("selectDeptTotalSalary");
+			
+			stmt = conn.createStatement();
+			
+			rs = stmt.executeQuery(sql);
+			
+			while(rs.next()) {
+				
+				int salary = rs.getInt("SALARY");
+				
+				Employee emp = new Employee(salary);
+				
+				empList.add(emp);
+			}
+			
+		} finally {
+			close(stmt);
+		}
+		
+		return null;
+	}
+
+
+	/** 주민등록번호가 일치하는 사원 정보 조회 DAO
+	 * @param conn
+	 * @param input
+	 * @return
+	 * @throws Exception
+	 */
+	public Employee selectEmpNo(Connection conn, String input) throws Exception {
+		Employee emp = null;
+
+		try {
+
+			String sql = prop.getProperty("selectEmpNo");
+
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1, input);
+
+			rs = pstmt.executeQuery();
+
+			if(rs.next()) {
+				
+				int empId = rs.getInt("EMP_ID");
+				String empName = rs.getString("EMP_NAME");
+				String empNo = rs.getString("EMP_NO");
+				String email = rs.getString("EMAIL");
+				String phone = rs.getString("PHONE");
+				String departmentTitle = rs.getString("DEPT_TITLE");
+				String jobName = rs.getString("JOB_NAME");
+				int salary = rs.getInt("SALARY");
+
+				emp = new Employee(empId, empName, empNo, email, 
+						phone, departmentTitle, jobName, salary);
+
+			}
+
+
+		} finally {
+			close(pstmt);
+		}
+
+		return emp;
+	}
+
+	
+	/** 직급별 급여 평균 조회 DAO
+	 * @param conn
+	 * @return
+	 */
+	public List<Employee> selectJobAvgSalary(Connection conn) {
+		List<Employee> empList = new ArrayList<Employee>();
+
+		try {
+
+			String sql = prop.getProperty("selectJobAvgSalary");
+
+			stmt = conn.createStatement();
+
+			rs = stmt.executeQuery(sql);
+
+			while(rs.next()) {
+
+				int salary = rs.getInt("SALARY");
+
+				Employee emp = new Employee(salary);
+
+				empList.add(emp);
+			}
+
+		} finally {
+			close(stmt);
+		}
+
+		return null;
 	}
 
 	
