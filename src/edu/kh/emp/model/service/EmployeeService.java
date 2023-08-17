@@ -102,6 +102,21 @@ public class EmployeeService {
 		
 		return result;
 	}
+
+	
+	/** 입력 받은 급여 이상을 받는 모든 사원 정보 조회 서비스
+	 * @return
+	 */
+	public List<Employee> selectSalaryEmp() {
+		
+		Connection conn = getConnection();
+		
+		List<Employee> list = dao.selectSalaryEmp(conn);
+		
+		close(conn);
+		
+		return list;
+	}
 	
 	
 	

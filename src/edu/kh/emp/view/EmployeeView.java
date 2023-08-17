@@ -45,6 +45,7 @@ public class EmployeeView {
 				// 부서코드, 급여 합 조회
 				
 				System.out.println("9. 주민 등록 번호가 일치하는 사원 정보 조회");
+				// selectEmpNo()
 				
 				System.out.println("10. 직급별 급여 평균 조회");
 				// selectJobAvgSalary()
@@ -66,7 +67,13 @@ public class EmployeeView {
 				case 2:  insertEmployee();  break;
 				case 3:  selectEmpId();   break;
 				case 4:  updateEmployee();   break;
-				case 5:  deleteEmployee();   break;
+				case 5:  selectDeptEmp();   break;
+				
+				case 6:  selectSalaryEmp();   break;
+				case 7:  selectDeptTotalSalary();   break;
+				case 8:  selectEmpNo();   break;
+				case 9:  selectJobAvgSalary();   break;
+				case 10:  deleteEmployee();   break;
 				case 0:  System.out.println("프로그램을 종료합니다...");   break;
 				default: System.out.println("메뉴에 존재하는 번호만 입력하세요.");
 				}
@@ -88,7 +95,7 @@ public class EmployeeView {
 	
 	
 	// 주 기능 메서드
-
+	
 	/** 전체 사원 정보 조회
 	 * 
 	 */
@@ -224,12 +231,12 @@ public class EmployeeView {
 	 */
 	private void deleteEmployee() throws Exception {
 		System.out.println("<사번이 일치하는 사원 정보 삭제>");
-
+		
 		int empId = inputEmpId();
 		
 		System.out.println("정말 삭제 하시겠습니까? (Y?N) : ");
 		char input = sc.next().toUpperCase().charAt(0);
-
+		
 		if(input == 'Y') {
 			// 삭제 수행 서비스 호출
 			int result = service.deleteEmployee(empId);
@@ -244,12 +251,60 @@ public class EmployeeView {
 			System.out.println("취소되었습니다.");
 		}
 		
-
-
+		
+		
+		
+		
+	}
+	
+	/** 입력 받은 부서와 일치하는 모든 사원 정보 조회
+	 * 
+	 */
+	private void selectDeptEmp() {
+		
 		
 		
 	}
 
+	/** 입력 받은 급여 이상을 받는 모든 사원 정보 조회
+	 * @throws Exception 
+	 * 
+	 */
+	private void selectSalaryEmp() throws Exception {
+		System.out.println("<검색한 급여 이상을 받는 사원 정보 전체 조회>");
+
+		System.out.print("검색할 급여 입력 : ");
+		int input = sc.nextInt();
+		sc.nextLine();
+		
+		List<Employee> empList = service.selectSalaryEmp();
+		
+		printAll(empList);
+	}
+
+	/** 부서별 급여 합 전체 조회
+	 * 
+	 */
+	private void selectDeptTotalSalary() {
+		
+	}
+
+	/** 주민 등록 번호가 일치하는 사원 정보 조회
+	 * 
+	 */
+	private void selectEmpNo() {
+		
+	}
+
+	/** 직급별 급여 평균 조회
+	 * 
+	 */
+	private void selectJobAvgSalary() {
+		
+	}
+
+
+	
 	
 	// 보조 메서드
 	
@@ -291,7 +346,6 @@ public class EmployeeView {
 		}
 		
 	}
-
 
 	/** 사번을 입력받아 반환하는 메서드
 	 * @return empId

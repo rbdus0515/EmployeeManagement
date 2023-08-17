@@ -216,6 +216,26 @@ public class EmployeeDAO {
 		return result;
 	}
 
+	/** 입력 받은 급여 이상을 받는 모든 사원 정보 조회 DAO
+	 * @param conn
+	 * @return
+	 */
+	public List<Employee> selectSalaryEmp(Connection conn) {
+		
+		List<Employee> emplist = new ArrayList<Employee>();
+		
+		try {
+			
+			String sql = prop.getProperty("selectSalaryEmp");
+			
+			
+		} finally {
+			close(stmt);
+		}
+		
+		return emplist;
+	}
+
 	
 	
 }
