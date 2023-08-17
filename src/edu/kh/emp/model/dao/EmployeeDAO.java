@@ -188,6 +188,34 @@ public class EmployeeDAO {
 		return result;
 	}
 
+	/** 사번이 일치하는 사원 정보 삭제 DAO
+	 * @param conn
+	 * @param empId
+	 * @return
+	 * @throws Exception
+	 */
+	public int deleteEmployee(Connection conn, int empId) throws Exception {
+		
+		int result = 0;
+		
+		try {
+			
+			String sql = prop.getProperty("deleteEmployee");
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, empId);
+			
+			result = pstmt.executeUpdate();
+			
+			
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
 	
 	
 }

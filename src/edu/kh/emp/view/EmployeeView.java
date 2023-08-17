@@ -213,16 +213,39 @@ public class EmployeeView {
 		if(result>0) {
 			System.out.println("사원 정보가 수정되었습니다.");
 		} else {
-			System.out.println("사원 정보가 일치하는 직원이 없습니다.");
+			System.out.println("사번이 일치하는 직원이 없습니다.");
 		}
 		
 	}
 	
-	/**
+	/** 사번이 일치하는 사원 정보 삭제
+	 * @throws Exception 
 	 * 
 	 */
-	private void deleteEmployee() {
+	private void deleteEmployee() throws Exception {
+		System.out.println("<사번이 일치하는 사원 정보 삭제>");
+
+		int empId = inputEmpId();
 		
+		System.out.println("정말 삭제 하시겠습니까? (Y?N) : ");
+		char input = sc.next().toUpperCase().charAt(0);
+
+		if(input == 'Y') {
+			// 삭제 수행 서비스 호출
+			int result = service.deleteEmployee(empId);
+			
+			if(result > 0) {
+				System.out.println("사원 정보가 삭제되었습니다.");
+			} else {
+				System.out.println("사번이 일치하는 직원이 없습니다.");
+			}
+			
+		} else {
+			System.out.println("취소되었습니다.");
+		}
+		
+
+
 		
 		
 	}

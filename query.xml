@@ -28,9 +28,15 @@
 	</entry>
 	
 	<entry key = "updateEmployee">
-		UPDATE EMPLOYEE SET
-		EMAIL = ?, PHONE = ?, SALARY = ?
-		WHERE EMP_ID = ?
+	UPDATE EMPLOYEE SET
+	EMAIL = ?, PHONE = ?, SALARY = ?
+	WHERE EMP_ID = ?
+	</entry>
+	
+	<entry key = "deleteEmployee">
+	DELETE
+	FROM EMPLOYEE
+	WHERE EMP_ID = ?
 	</entry>
 
 </properties>
