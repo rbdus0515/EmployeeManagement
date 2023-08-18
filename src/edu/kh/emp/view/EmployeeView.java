@@ -3,6 +3,7 @@ package edu.kh.emp.view;
 import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import edu.kh.emp.model.service.EmployeeService;
@@ -59,7 +60,7 @@ public class EmployeeView {
 				sc.nextLine(); //  추가!
 
 
-				System.out.println();				
+				System.out.println();
 
 
 				switch(input) {
@@ -72,7 +73,7 @@ public class EmployeeView {
 				case 7:  selectSalaryEmp();   break;
 				case 8:  selectDeptTotalSalary();   break;
 				case 9:  selectEmpNo();   break;
-				case 10:  selectJobAvgSalary();   break;
+				case 10: selectJobAvgSalary();   break;
 				case 0:  System.out.println("프로그램을 종료합니다...");   break;
 				default: System.out.println("메뉴에 존재하는 번호만 입력하세요.");
 				}
@@ -95,10 +96,10 @@ public class EmployeeView {
 	
 	// 주 기능 메서드
 	
-	/** 전체 사원 정보 조회
+	/** 1. 전체 사원 정보 조회
 	 * 
 	 */
-	private void selectAll() throws Exception {
+	public void selectAll() throws Exception {
 		System.out.println("<전체 사원 정보 조회>");
 		
 		List<Employee> empList = service.selectAll();
@@ -107,10 +108,10 @@ public class EmployeeView {
 		
 	}
 	
-	/** 새로운 사원 추가
+	/** 2. 새로운 사원 추가
 	 * 
 	 */
-	private void insertEmployee() throws Exception {
+	public void insertEmployee() throws Exception {
 		
 		System.out.println("<새로운 사원 추가>");
 		
@@ -160,9 +161,9 @@ public class EmployeeView {
 			int result = service.insertEmployee(emp1);
 			
 			if(result > 0) {
-				System.out.println("insert 성공");
+				System.out.println("사원 추가 성공");
 			} else {
-				System.out.println("insert 실패");
+				System.out.println("사원 추가 실패");
 			}
 			
 		} catch(Exception e) {
@@ -174,11 +175,11 @@ public class EmployeeView {
 		
 	}
 	
-	/** 사번이 일치하는 사원 정보 조회
+	/** 3. 사번이 일치하는 사원 정보 조회
 	 * @return 
 	 * 
 	 */
-	private void selectEmpId() throws Exception{
+	public void selectEmpId() throws Exception{
 		System.out.println("<사번이 일치하는 사원 정보 조회>");
 		
 		int empId = inputEmpId();
@@ -189,11 +190,11 @@ public class EmployeeView {
 		
 	}
 	
-	/** 사번이 일치하는 사원 정보 수정(이메일, 전화번호, 급여)
+	/** 4. 사번이 일치하는 사원 정보 수정(이메일, 전화번호, 급여)
 	 * @throws Exception 
 	 * 
 	 */
-	private void updateEmployee() throws Exception {
+	public void updateEmployee() throws Exception {
 		System.out.println("<사번이 일치하는 사원 정보 수정>");
 		
 		int empId = inputEmpId();
@@ -224,22 +225,22 @@ public class EmployeeView {
 		
 	}
 	
-	/** 사번이 일치하는 사원 정보 삭제
+	/** 5. 사번이 일치하는 사원 정보 삭제
 	 * @throws Exception 
 	 * 
 	 */
-	private void deleteEmployee() throws Exception {
-		System.out.println("<사번이 일치하는 사원 정보 삭제!!!!!!!>");
+	public void deleteEmployee() throws Exception {
+		System.out.println("<사번이 일치하는 사원 정보 삭제>");
 		
 		int empId = inputEmpId();
 		
-		System.out.println("정말 삭제 하시겠습니까? (Y?N) : ");
+		System.out.println("정말 삭제 하시겠습니까? (Y/N) : ");
 		char input = sc.next().toUpperCase().charAt(0);
 		
 		if(input == 'Y') {
 			// 삭제 수행 서비스 호출
 			int result = service.deleteEmployee(empId);
-			
+				
 			if(result > 0) {
 				System.out.println("사원 정보가 삭제되었습니다.");
 			} else {
@@ -252,77 +253,84 @@ public class EmployeeView {
 		
 	}
 	
-	/** 입력 받은 부서와 일치하는 모든 사원 정보 조회
+	/** 6. 입력 받은 부서와 일치하는 모든 사원 정보 조회
 	 * @throws Exception 
 	 * 
 	 */
-	private void selectDeptEmp() throws Exception {
-		System.out.println("<입력 받은 부서에 있는 사원 정보 전체 조회>");
+	public void selectDeptEmp() throws Exception {
+		System.out.println("<입력 받은 부서와 일치하는 모든 사원 정보 조회>");
 		
 		System.out.print("검색할 부서 입력 : ");
-		String input = sc.nextLine();
+		String departmentTitle = sc.nextLine();
 		
-		List<Employee> empList = service.selectDeptEmp();
-		
-		printAll(empList);
+		printAll(service.selectDeptEmp(departmentTitle));
 	}
 
-	/** 입력 받은 급여 이상을 받는 모든 사원 정보 조회
+	/** 7. 입력 받은 급여 이상을 받는 모든 사원 정보 조회
 	 * @throws Exception 
 	 * 
 	 */
-	private void selectSalaryEmp() throws Exception {
+	public void selectSalaryEmp() throws Exception {
 		System.out.println("<입력 급여 이상을 받고 있는 사원 정보 전체 조회>");
 
 		System.out.print("검색할 급여 입력 : ");
-		int input = sc.nextInt();
+		int inputSalary = sc.nextInt();
 		sc.nextLine();
-		
-		List<Employee> empList = service.selectSalaryEmp();
 
-		printAll(empList);
+		printAll(service.selectSalaryEmp(inputSalary));
 	}
 
-	/** 부서별 급여 합 전체 조회
+	/** 8. 부서별 급여 합 전체 조회
 	 * @throws Exception 
 	 * 
 	 */
-	private void selectDeptTotalSalary() throws Exception {
+	public void selectDeptTotalSalary() throws Exception {
 		System.out.println("<부서별 급여 합 전체 조회>");
 		
-		List<Employee> empList = service.selectDeptTotalSalary();
+		// D1 : 8000000원
 		
-		printAll(empList);
+		Map<String, Integer> map = service.selectDeptTotalSalary();
+		
+		for(String key : map.keySet() ) {
+			
+			System.out.println( key + " : " + map.get(key) );
+			
+		}
 		
 	}
 
-	/** 주민등록번호가 일치하는 사원 정보 조회
+	/** 9. 주민등록번호가 일치하는 사원 정보 조회
 	 * @throws Exception 
 	 * 
 	 */
-	private void selectEmpNo() throws Exception {
+	public void selectEmpNo() throws Exception {
 
 		System.out.println("<주민 등록 번호가 일치하는 사원 정보 조회>");
 		
 		System.out.print("검색할 사원의 주민등록번호 입력 : ");
-		String input = sc.nextLine();
+		String empNo = sc.next();
 		
-		Employee emp = service.selectEmpNo(input);
+		Employee emp = service.selectEmpNo(empNo);
 		
 		printOne(emp);
+//위 두 코드 합친 코드 : printOne(service.selectEmpNo(empNo));
 		
 	}
 
-	/** 직급별 급여 평균 조회
+	/** 10. 직급별 급여 평균 조회
 	 * @throws Exception 
 	 * 
 	 */
-	private void selectJobAvgSalary() throws Exception {
+	public void selectJobAvgSalary() throws Exception {
 		System.out.println("<직급별 급여 합 전체 조회>");
 		
-		List<Employee> empList = service.selectJobAvgSalary();
+		Map<String, Double> map = service.selectJobAvgSalary();
 		
-		printAll(empList);
+		for(String key : map.keySet() ) {
+			
+			System.out.println( key + " : " + map.get(key) + "원");
+			
+		}
 		
 		
 	}

@@ -6,7 +6,10 @@
 
 	<entry key="driver">oracle.jdbc.driver.OracleDriver</entry>
 
-	<entry key="url">jdbc:oracle:thin:@125.128.63.141/XE</entry>
+	<entry key="url">jdbc:oracle:thin:@localhost:1521:XE</entry>
+	
+	<!-- localhost:1521: -->
+	<!-- 125.128.63.141/ -->
 
 	<entry key="user">kh</entry>
 
