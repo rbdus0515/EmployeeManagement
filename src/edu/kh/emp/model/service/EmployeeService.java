@@ -50,7 +50,7 @@ public class EmployeeService {
 		
 	}
 
-	/** 사번이 일치하는 사원 정보 조회 서비스
+	/** 사번이 일치하는 사원 정보 조회 서비스 
 	 * @return result
 	 * @throws Exception 
 	 * 
